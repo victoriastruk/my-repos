@@ -1,23 +1,29 @@
-import React from 'react';
-const List = (props) => {
-   //Ініціалізуємо властивість для компонента, який називається repos
-  const { repos } = props;
-  //Коли довжина отриманого нами запиту = 0, виводимо повідомлення
-  if (!repos || repos.length === 0) return <p>No repos, sorry</p>;
-  // Співставляємо кожен з репозеторіїв, який буде представлений запитом АРІ, вилучаємо кожне з імен і їх опис, відображаємо їх у списку
+import React from "react";
+
+const List = ({ repos }) => {
+  if (!repos || repos.length === 0) return <p>No repositories found.</p>;
+
   return (
-    <ul>
-      <h2 className='list-head'>Available Public Repositories</h2>
-      {repos.map((repo) => {
-        return (
-          <li key={repo.id} className='list'>
-            <span className='repo-text'>{repo.name} </span>
-            <span className='repo-description'>{repo.description}</span>
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <h2 className="list-head">Available Public Repositories</h2>
+      <div className="repo-grid">
+        {repos.map((repo) => (
+          <div key={repo.id} className="repo-card">
+            <a href={repo.html_url} target="_blank" rel="noopener noreferrer">
+              <h3 className="repo-text">{repo.name}</h3>
+            </a>
+            <p className="repo-description">
+              {repo.description || "No description"}
+            </p>
+            <div className="repo-meta">
+              <span>⭐ {repo.stargazers_count}</span>
+              <span>{repo.language}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
-//Експортуємо компонент List, щоб мати можливість використовувати його десь ще.
+
 export default List;
